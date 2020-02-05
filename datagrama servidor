@@ -1,0 +1,29 @@
+import java.net.*;
+import java.io.*;
+public class servidor
+{
+  public static void main(String[]args)
+  {
+    try
+    {
+      int pto=1234;
+      DatagramSocket s= new DatagramSocket(1234);
+      s.setReuseAddress(true);
+      System.out.println("serevidor iniciado, esperando mensaje");
+      for(;;)
+      {
+        DatagramPacket p= new DatagramPacket(new byte[65500],65500);
+        s.receive(p);
+        String nombre= new String(p.getData(),0,p.getLength());
+        String saludo="hola "+ nombre +"desde servidor: ";
+        byte[] b= saludo.getBytes();
+        System.out.println("h¿generando saludo a: "+saludo+ "hacia a: "+ p.getAddress()+":"+p.getPort());
+        DatagramPacket p1= new DatagramPacket(b,b.length,p.getAddress(),p.getPort());
+        s.send(p1);
+      }
+    }catch(Exception e)
+      {
+        e.printStackTrace();
+      }
+  }
+}
