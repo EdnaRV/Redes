@@ -1,0 +1,40 @@
+//archivo cliente.java
+import java.net.*;
+import java.io.*;
+public class cliente
+{
+  public static void main(String[]args)
+  {
+    try
+    {
+      BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
+      System.out.print("Escribe tu nombre");
+      String nombre= br.readLine();
+      byte[]b=nombre.getBytes();
+      String host="127.0.0.1";
+      int pto= 1234;
+      DatagramSocket cl= new DatagramSocket();
+      InetAddress dst= null;
+     try
+     {
+      dst=InetAddress.getByName(host);
+     }catch(UnknownHostException u)
+      {
+        System.err.println("direccion no válida");
+        System.exit(1);
+      }
+      DatagramPacket p=new DatagramPacket(b,b.length,dst,pto);
+      cl.send(p);
+      System.out.println("\n esperando respuesta del servidor");
+      DatagramPacket p1=new DatagramPacket(new byte[65500],65500);
+      cl.receive(p1);
+      String saludo= new String(p1.getData(),0,p1.getLength());
+      System.out.print("\nmensaje recibido"+saludo+"\ntermina app");
+      br.close();
+      cl.close();
+    }catch(Exception e)
+    {
+    e.printStackTrace();
+    }
+  }
+}
