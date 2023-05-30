@@ -5,3 +5,5 @@ Turned off firewall for GNS3
 Added to exceptions of Security- Antivirus: Path Folder of GNS3 
 ipconfig: IPV4
 Host binding: ip obtenida step before & port: 1080
+--------------------------
+sudo apt install dynamips ubridge
